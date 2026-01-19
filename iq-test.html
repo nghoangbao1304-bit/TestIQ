@@ -1,0 +1,1354 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kiểm Tra Chỉ Số IQ - TestYourIQ</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 800px;
+            width: 100%;
+            padding: 40px;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .welcome-screen {
+            text-align: center;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .welcome-screen h2 {
+            color: #333;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        .welcome-screen p {
+            color: #666;
+            font-size: 1.1em;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .info-box {
+            background: #f5f5f5;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            text-align: left;
+        }
+
+        .info-box ul {
+            margin-left: 20px;
+            color: #666;
+        }
+
+        .info-box li {
+            margin-bottom: 10px;
+        }
+
+        .start-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 50px;
+            font-size: 1.1em;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .start-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .start-button:active {
+            transform: translateY(0);
+        }
+
+        .question-screen {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .question-counter {
+            color: #667eea;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .question-text {
+            color: #333;
+            font-size: 1.3em;
+            margin-bottom: 30px;
+            line-height: 1.5;
+            font-weight: 500;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option {
+            background: #f5f5f5;
+            border: 2px solid transparent;
+            padding: 18px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1em;
+            color: #333;
+            text-align: left;
+        }
+
+        .option:hover {
+            background: #e8e8ff;
+            border-color: #667eea;
+        }
+
+        .option.selected {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .option.correct {
+            background: #4caf50;
+            color: white;
+            border-color: #4caf50;
+        }
+
+        .option.incorrect {
+            background: #f44336;
+            color: white;
+            border-color: #f44336;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            justify-content: flex-end;
+        }
+
+        .btn-next, .btn-restart {
+            padding: 12px 30px;
+            font-size: 1em;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .btn-next {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-next:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-next:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-restart {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-restart:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+        }
+
+        .result-screen {
+            text-align: center;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .result-screen h2 {
+            color: #333;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+        }
+
+        .iq-score {
+            display: inline-block;
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3em;
+            font-weight: bold;
+            margin: 30px 0;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .score-interpretation {
+            background: #f5f5f5;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+
+        .score-interpretation h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .score-interpretation p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .detail-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .detail-item h4 {
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .detail-item p {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #333;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            padding: 10px 20px;
+            border: 2px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            position: relative;
+        }
+
+        .nav-btn:hover:not(.locked) {
+            background: #667eea;
+            color: white;
+        }
+
+        .nav-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .nav-btn.locked {
+            opacity: 0.6;
+            cursor: not-allowed;
+            background: #f0f0f0;
+            color: #999;
+            border-color: #ccc;
+        }
+
+        .nav-btn.locked::after {
+            content: "🔒";
+            margin-left: 5px;
+        }
+
+        .nav-btn.locked:hover {
+            background: #f0f0f0;
+        }
+
+        .statistics-screen {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+        }
+
+        .stat-card h3 {
+            font-size: 0.9em;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+
+        .stat-card .number {
+            font-size: 2.5em;
+            font-weight: bold;
+        }
+
+        .history-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .history-table th {
+            background: #667eea;
+            color: white;
+            padding: 15px;
+            text-align: left;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .history-table td {
+            border-bottom: 1px solid #e0e0e0;
+            padding: 15px;
+        }
+
+        .history-table tr:hover {
+            background: #f5f5f5;
+        }
+
+        .improve-screen {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .improve-content {
+            margin-top: 20px;
+        }
+
+        .tip-card {
+            background: #f5f5f5;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+        }
+
+        .tip-card h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .tip-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .details {
+                grid-template-columns: 1fr;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-buttons {
+                flex-direction: column;
+            }
+
+            .nav-btn {
+                width: 100%;
+            }
+        }
+
+        /* Payment Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .modal.show {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 450px;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h2 {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 8px;
+        }
+
+        .modal-header p {
+            color: #666;
+            font-size: 0.95em;
+        }
+
+        .pricing-info {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 18px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .pricing-info .price {
+            font-size: 2.2em;
+            font-weight: bold;
+            margin-bottom: 3px;
+        }
+
+        .pricing-info .duration {
+            font-size: 1em;
+            opacity: 0.9;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            color: #333;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 0.95em;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .benefits {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .benefits h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1em;
+        }
+
+        .benefits ul {
+            margin-left: 20px;
+        }
+
+        .benefits li {
+            margin-bottom: 6px;
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-pay {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 10px 30px;
+            border-radius: 25px;
+            font-size: 0.95em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-pay:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .btn-pay:active {
+            transform: translateY(0);
+        }
+
+        .btn-cancel {
+            background: #f0f0f0;
+            color: #666;
+            border: 2px solid #e0e0e0;
+            padding: 10px 30px;
+            border-radius: 25px;
+            font-size: 0.95em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-cancel:hover {
+            background: #e0e0e0;
+        }
+
+        .close-modal {
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            font-size: 1.8em;
+            cursor: pointer;
+            color: #999;
+            transition: color 0.3s;
+        }
+
+        .close-modal:hover {
+            color: #333;
+        }
+
+        .modal-content {
+            position: relative;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .details {
+                grid-template-columns: 1fr;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-buttons {
+                flex-direction: column;
+            }
+
+            .nav-btn {
+                width: 100%;
+                padding: 8px 15px;
+                font-size: 0.9em;
+            }
+
+            .modal-content {
+                max-height: 90vh;
+                padding: 25px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧠 TestYourIQ</h1>
+            <p>Kiểm tra chỉ số IQ của bạn</p>
+        </div>
+
+        <div class="nav-buttons">
+            <button class="nav-btn active" onclick="showScreen('welcome')">🏠 Trang Chủ</button>
+            <button class="nav-btn locked" id="statBtn" onclick="handleLockedFeature(event)">📊 Thống Kê</button>
+            <button class="nav-btn locked" id="improveBtn" onclick="handleLockedFeature(event)">💡 Cải Thiện IQ</button>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill"></div>
+        </div>
+
+        <!-- Welcome Screen -->
+        <div id="welcomeScreen" class="welcome-screen">
+            <h2>Chào mừng!</h2>
+            <p>Hãy chuẩn bị cho bài kiểm tra IQ của bạn</p>
+            <div class="info-box">
+                <ul>
+                    <li>⏱️ Bài kiểm tra gồm 20 câu hỏi</li>
+                    <li>💡 Mỗi câu hỏi kiểm tra một khía cạnh của trí thông minh</li>
+                    <li>📊 Kết quả sẽ được tính toán dựa trên số câu trả lời đúng</li>
+                    <li>✅ Chọn đáp án tốt nhất cho mỗi câu hỏi</li>
+                </ul>
+            </div>
+            <button class="start-button" onclick="startTest()">Bắt Đầu Kiểm Tra</button>
+        </div>
+
+        <!-- Question Screen -->
+        <div id="questionScreen" class="question-screen hidden">
+            <div class="question-counter">Câu <span id="currentQuestion">1</span>/20</div>
+            <div class="question-text" id="questionText"></div>
+            <div class="options" id="optionsContainer"></div>
+            <div class="button-group">
+                <button class="btn-next" id="nextBtn" onclick="nextQuestion()" disabled>Câu Tiếp Theo →</button>
+            </div>
+        </div>
+
+        <!-- Result Screen -->
+        <div id="resultScreen" class="result-screen hidden">
+            <h2>Kết Quả Kiểm Tra</h2>
+            <div class="iq-score" id="iqScore"></div>
+            
+            <div class="score-interpretation" id="scoreInterpretation"></div>
+
+            <div class="details">
+                <div class="detail-item">
+                    <h4>Câu Trả Lời Đúng</h4>
+                    <p><span id="correctCount">0</span>/20</p>
+                </div>
+                <div class="detail-item">
+                    <h4>Tỷ Lệ Chính Xác</h4>
+                    <p id="accuracy">0%</p>
+                </div>
+            </div>
+
+            <div style="margin-top: 30px;">
+                <button class="btn-restart" onclick="saveResultAndRestart()">🔄 Làm Lại Bài Kiểm Tra</button>
+            </div>
+        </div>
+
+        <!-- Statistics Screen -->
+        <div id="statisticsScreen" class="statistics-screen hidden">
+            <h2>📊 Thống Kê Của Bạn</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Tổng Số Lần Làm Test</h3>
+                    <div class="number" id="totalTests">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Điểm IQ Cao Nhất</h3>
+                    <div class="number" id="highestIQ">-</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Điểm IQ Trung Bình</h3>
+                    <div class="number" id="averageIQ">-</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Tỷ Lệ Chính Xác TB</h3>
+                    <div class="number" id="avgAccuracy">-</div>
+                </div>
+            </div>
+
+            <h3 style="margin-top: 30px; color: #667eea;">📜 Lịch Sử Làm Test</h3>
+            <table class="history-table" id="historyTable">
+                <thead>
+                    <tr>
+                        <th>Lần Thứ</th>
+                        <th>Điểm IQ</th>
+                        <th>Câu Đúng</th>
+                        <th>Tỷ Lệ</th>
+                        <th>Ngày Giờ</th>
+                    </tr>
+                </thead>
+                <tbody id="historyBody">
+                    <tr>
+                        <td colspan="5" style="text-align: center; color: #999;">Chưa có dữ liệu</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div style="margin-top: 20px;">
+                <button class="btn-restart" onclick="clearHistory()">🗑️ Xóa Lịch Sử</button>
+            </div>
+        </div>
+
+        <!-- Improve IQ Screen -->
+        <div id="improveScreen" class="improve-screen hidden">
+            <h2>💡 Cách Cải Thiện Chỉ Số IQ</h2>
+            <div class="improve-content">
+                <div class="tip-card">
+                    <h3>1️⃣ Luyện Tập Thường Xuyên</h3>
+                    <p>Giải các bài toán, câu đố logic hàng ngày. Càng luyện tập nhiều, bộ não của bạn sẽ càng thích ứng tốt với các bài toán khó.</p>
+                </div>
+
+                <div class="tip-card">
+                    <h3>2️⃣ Đọc Sách & Học Tập</h3>
+                    <p>Đọc các cuốn sách về logic, toán học, khoa học. Học các ngôn ngữ mới. Mở rộng kiến thức giúp phát triển trí thông minh.</p>
+                </div>
+
+                <div class="tip-card">
+                    <h3>3️⃣ Ngủ Đủ Giấc</h3>
+                    <p>Bộ não cần 7-8 giờ ngủ mỗi đêm để phục hồi và xử lý thông tin. Ngủ không đủ làm giảm khả năng tư duy logic.</p>
+                </div>
+
+                <div class="tip-card">
+                    <h3>4️⃣ Tập Thể Dục Thường Xuyên</h3>
+                    <p>Hoạt động thể chất tăng lưu lượng máu lên não, cải thiện sự tập trung và trí nhớ. Tập thể dục 30 phút mỗi ngày là rất tốt.</p>
+                </div>
+
+                <div class="tip-card">
+                    <h3>5️⃣ Ăn Uống Lành Mạnh</h3>
+                    <p>Cá, trứng, hạt, chocolate đen chứa nhiều chất dinh dưỡng tốt cho não. Tránh thực phẩm chứa nhiều đường và chất béo.</p>
+                </div>
+
+                <div class="tip-card">
+                    <h3>6️⃣ Giải Câu Đố & Trò Chơi Trí Tuệ</h3>
+                    <p>Chơi các trò chơi như cờ vua, Sudoku, các câu đố logic giúp kích thích não bộ và phát triển tư duy chiến lược.</p>
+                </div>
+
+                <div class="tip-card">
+                    <h3>7️⃣ Học Kỹ Năng Mới</h3>
+                    <p>Học một kỹ năng hoàn toàn mới như nhạc, lập trình, hay thể thao. Điều này kích thích não tạo các đường nối thần kinh mới.</p>
+                </div>
+
+                <div class="tip-card">
+                    <h3>8️⃣ Hạn Chế Căng Thẳng</h3>
+                    <p>Căng thẳng cao gây hại cho não. Tập thiền, yoga, hay các hoạt động thư giãn để giảm stress.</p>
+                </div>
+
+                <div class="tip-card">
+                    <h3>9️⃣ Giao Tiếp & Thảo Luận</h3>
+                    <p>Nói chuyện với những người thông minh, thảo luận các vấn đề phức tạp. Điều này giúp cải thiện khả năng tư duy logic.</p>
+                </div>
+
+                <div class="tip-card">
+                    <h3>🔟 Giữ Tâm Trí Tò Mò</h3>
+                    <p>Luôn đặt câu hỏi, tìm hiểu những điều mới. Sự tò mò và ham học hỏi là chìa khóa để phát triển trí thông minh.</p>
+                </div>
+            </div>
+
+            <div style="margin-top: 30px;">
+                <button class="btn-restart" onclick="showScreen('welcome')">← Quay Lại Trang Chủ</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Modal -->
+    <div id="paymentModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closePaymentModal()">&times;</span>
+            <div class="modal-header">
+                <h2>🔓 Mở Khóa Tính Năng</h2>
+                <p>Truy cập thống kê và lời khuyên cải thiện IQ</p>
+            </div>
+
+            <div class="pricing-info">
+                <div class="price">29.000 đ</div>
+                <div class="duration">Truy cập vĩnh viễn</div>
+            </div>
+
+            <div class="benefits">
+                <h4>✨ Bạn sẽ có được:</h4>
+                <ul>
+                    <li>📊 Xem thống kê chi tiết của tất cả bài test</li>
+                    <li>📈 Theo dõi tiến độ cải thiện IQ theo thời gian</li>
+                    <li>💡 10 lời khuyên chuyên sâu cách cải thiện IQ</li>
+                    <li>🎯 Phân tích chi tiết điểm mạnh và yếu</li>
+                    <li>📜 Lịch sử làm test đầy đủ</li>
+                </ul>
+            </div>
+
+            <form id="paymentForm">
+                <div class="form-group">
+                    <label for="fullName">Họ và Tên</label>
+                    <input type="text" id="fullName" placeholder="Nguyễn Văn A" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="you@example.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Số Điện Thoại</label>
+                    <input type="tel" id="phone" placeholder="0912345678" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="cardNumber">Số Thẻ</label>
+                    <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="expiryDate">Hạn Sử Dụng</label>
+                        <input type="text" id="expiryDate" placeholder="MM/YY" maxlength="5" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="cvv">CVV</label>
+                        <input type="text" id="cvv" placeholder="123" maxlength="3" required>
+                    </div>
+                </div>
+
+                <div class="modal-buttons">
+                    <button type="button" class="btn-pay" onclick="completePayment()">💳 Thanh Toán Ngay</button>
+                    <button type="button" class="btn-cancel" onclick="closePaymentModal()">Hủy</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "Tìm số tiếp theo trong dãy: 2, 4, 8, 16, ?",
+                options: ["24", "32", "30", "20"],
+                correct: 1
+            },
+            {
+                question: "Nếu tất cả mèo là động vật, và tất cả động vật cần thực phẩm, thì mèo cần thực phẩm?",
+                options: [
+                    "Đúng",
+                    "Sai",
+                    "Không chắc",
+                    "Phụ thuộc"
+                ],
+                correct: 0
+            },
+            {
+                question: "Một nhân viên làm việc 5 ngày/tuần. Anh ấy kiếm được 300.000 đ/ngày. Lương 4 tuần là bao nhiêu?",
+                options: ["6.000.000 đ", "5.000.000 đ", "7.000.000 đ", "8.000.000 đ"],
+                correct: 0
+            },
+            {
+                question: "3, 6, 12, 24, ?",
+                options: ["36", "48", "42", "30"],
+                correct: 1
+            },
+            {
+                question: "SÁCH : KIẾN THỨC = BẢN ĐỒ : ?",
+                options: ["VỊ TRÍ", "HƯỚNG DẪN", "HÌNH ẢNH", "ĐƯỜNG DI"],
+                correct: 0
+            },
+            {
+                question: "Một chiếc hộp chứa 3 quả bóng đỏ, 2 quả bóng xanh, 5 quả bóng vàng. Tổng bao nhiêu quả bóng?",
+                options: ["8", "9", "10", "11"],
+                correct: 2
+            },
+            {
+                question: "1, 4, 9, 16, 25, ?",
+                options: ["35", "36", "37", "40"],
+                correct: 1
+            },
+            {
+                question: "Nếu A = 2B, B = 2C, và C = 4, thì A bằng bao nhiêu?",
+                options: ["8", "16", "32", "64"],
+                correct: 2
+            },
+            {
+                question: "5, 10, 20, 40, ?",
+                options: ["60", "70", "80", "90"],
+                correct: 2
+            },
+            {
+                question: "LỪNG : LÚNG = ? : SÁNG",
+                options: ["TỐT", "BẠN", "ĐÊM", "HÔM"],
+                correct: 2
+            },
+            {
+                question: "Một cái bàn giá 500.000 đ được giảm 20%. Giá mới là bao nhiêu?",
+                options: ["250.000 đ", "100.000 đ", "400.000 đ", "450.000 đ"],
+                correct: 2
+            },
+            {
+                question: "2, 3, 5, 7, 11, ?",
+                options: ["12", "13", "14", "15"],
+                correct: 1
+            },
+            {
+                question: "DOCTOR : BỆNH NHÂN = GIÁO VIÊN : ?",
+                options: ["TRƯỜNG HỌC", "SÁCH VỞ", "HỌC SINH", "BẢN"],
+                correct: 2
+            },
+            {
+                question: "Trong một lớp 30 học sinh, 60% là nữ. Bao nhiêu học sinh nữ?",
+                options: ["15", "18", "20", "12"],
+                correct: 1
+            },
+            {
+                question: "1, 2, 4, 7, 11, ?",
+                options: ["15", "16", "17", "18"],
+                correct: 2
+            },
+            {
+                question: "SONG : ĐÔI = TAM : ?",
+                options: ["MỘT", "BA", "BỐN", "NĂM"],
+                correct: 1
+            },
+            {
+                question: "Một xe chạy 120 km trong 2 giờ. Vận tốc trung bình là bao nhiêu km/h?",
+                options: ["40 km/h", "60 km/h", "80 km/h", "100 km/h"],
+                correct: 1
+            },
+            {
+                question: "3, 9, 27, 81, ?",
+                options: ["162", "243", "324", "405"],
+                correct: 1
+            },
+            {
+                question: "Nếu THỨ = 4, và NĂNG = 5, thì LỰC bằng bao nhiêu?",
+                options: ["2", "3", "4", "5"],
+                correct: 1
+            },
+            {
+                question: "10, 9, 8, 7, ?, 5",
+                options: ["6", "7", "8", "9"],
+                correct: 0
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let answers = [];
+        let score = 0;
+        let testResults = [];
+        let isPremium = false;
+
+        // Load premium status and results from localStorage
+        function loadData() {
+            const savedPremium = localStorage.getItem('isPremium');
+            const saved = localStorage.getItem('iqTestResults');
+            if (savedPremium) {
+                isPremium = JSON.parse(savedPremium);
+            }
+            if (saved) {
+                testResults = JSON.parse(saved);
+            }
+        }
+
+        // Save premium status to localStorage
+        function savePremiumStatus() {
+            localStorage.setItem('isPremium', JSON.stringify(isPremium));
+        }
+
+        // Save results to localStorage
+        function saveResults() {
+            localStorage.setItem('iqTestResults', JSON.stringify(testResults));
+        }
+
+        function handleLockedFeature(e) {
+            if (!isPremium) {
+                e.preventDefault();
+                openPaymentModal();
+            } else {
+                const screenName = e.target.textContent.includes('Thống') ? 'statistics' : 'improve';
+                showScreen(screenName);
+            }
+        }
+
+        function openPaymentModal() {
+            document.getElementById('paymentModal').classList.add('show');
+        }
+
+        function closePaymentModal() {
+            document.getElementById('paymentModal').classList.remove('show');
+            document.getElementById('paymentForm').reset();
+        }
+
+        function completePayment() {
+            const fullName = document.getElementById('fullName').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const cardNumber = document.getElementById('cardNumber').value;
+            const expiryDate = document.getElementById('expiryDate').value;
+            const cvv = document.getElementById('cvv').value;
+
+            // Validate form
+            if (!fullName || !email || !phone || !cardNumber || !expiryDate || !cvv) {
+                alert('Vui lòng điền đầy đủ thông tin thanh toán!');
+                return;
+            }
+
+            // Simple validation
+            if (cardNumber.replace(/\s/g, '').length !== 16) {
+                alert('Số thẻ không hợp lệ!');
+                return;
+            }
+
+            if (expiryDate.split('/').length !== 2) {
+                alert('Hạn sử dụng phải có định dạng MM/YY!');
+                return;
+            }
+
+            if (cvv.length !== 3) {
+                alert('CVV phải có 3 chữ số!');
+                return;
+            }
+
+            // Simulate payment processing
+            alert('✅ Thanh toán thành công!\n\nCảm ơn ' + fullName + ' đã mua gói Premium!\n\nBạn đã mở khóa tất cả tính năng.');
+            
+            // Set premium status
+            isPremium = true;
+            savePremiumStatus();
+
+            // Close modal and reset form
+            closePaymentModal();
+
+            // Update UI
+            updateLockedButtons();
+
+            // Show welcome screen
+            showScreen('welcome');
+        }
+
+        function updateLockedButtons() {
+            const statBtn = document.getElementById('statBtn');
+            const improveBtn = document.getElementById('improveBtn');
+
+            if (isPremium) {
+                statBtn.classList.remove('locked');
+                improveBtn.classList.remove('locked');
+                statBtn.onclick = () => showScreen('statistics');
+                improveBtn.onclick = () => showScreen('improve');
+            } else {
+                statBtn.classList.add('locked');
+                improveBtn.classList.add('locked');
+                statBtn.onclick = (e) => handleLockedFeature(e);
+                improveBtn.onclick = (e) => handleLockedFeature(e);
+            }
+        }
+
+        function showScreen(screenName) {
+            // Check if user is premium before showing locked screens
+            if ((screenName === 'statistics' || screenName === 'improve') && !isPremium) {
+                openPaymentModal();
+                return;
+            }
+
+            // Hide all screens
+            document.getElementById('welcomeScreen').classList.add('hidden');
+            document.getElementById('questionScreen').classList.add('hidden');
+            document.getElementById('resultScreen').classList.add('hidden');
+            document.getElementById('statisticsScreen').classList.add('hidden');
+            document.getElementById('improveScreen').classList.add('hidden');
+
+            // Update nav buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+
+            // Show selected screen
+            switch(screenName) {
+                case 'welcome':
+                    document.getElementById('welcomeScreen').classList.remove('hidden');
+                    document.querySelector('.nav-btn').classList.add('active');
+                    break;
+                case 'statistics':
+                    document.getElementById('statisticsScreen').classList.remove('hidden');
+                    document.querySelectorAll('.nav-btn')[1].classList.add('active');
+                    loadStatistics();
+                    break;
+                case 'improve':
+                    document.getElementById('improveScreen').classList.remove('hidden');
+                    document.querySelectorAll('.nav-btn')[2].classList.add('active');
+                    break;
+            }
+        }
+
+        function startTest() {
+            document.getElementById('welcomeScreen').classList.add('hidden');
+            document.getElementById('questionScreen').classList.remove('hidden');
+            currentQuestionIndex = 0;
+            answers = [];
+            score = 0;
+            displayQuestion();
+        }
+
+        function displayQuestion() {
+            const question = questions[currentQuestionIndex];
+            document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
+            document.getElementById('questionText').textContent = question.question;
+            
+            const optionsContainer = document.getElementById('optionsContainer');
+            optionsContainer.innerHTML = '';
+            
+            question.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.className = 'option';
+                button.textContent = option;
+                button.onclick = () => selectOption(index);
+                optionsContainer.appendChild(button);
+            });
+
+            updateProgressBar();
+            document.getElementById('nextBtn').disabled = true;
+        }
+
+        function selectOption(index) {
+            const options = document.querySelectorAll('.option');
+            options.forEach(opt => opt.classList.remove('selected'));
+            options[index].classList.add('selected');
+            answers[currentQuestionIndex] = index;
+            document.getElementById('nextBtn').disabled = false;
+        }
+
+        function nextQuestion() {
+            if (answers[currentQuestionIndex] === undefined) return;
+            
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                displayQuestion();
+            } else {
+                calculateResult();
+            }
+        }
+
+        function calculateResult() {
+            score = 0;
+            for (let i = 0; i < questions.length; i++) {
+                if (answers[i] === questions[i].correct) {
+                    score++;
+                }
+            }
+
+            const iqScore = 60 + (score / questions.length) * 80;
+            let interpretation = '';
+
+            if (iqScore < 90) {
+                interpretation = "<h3>Dưới Trung Bình</h3><p>Bạn cần cải thiện kỹ năng giải quyết vấn đề và tư duy logic. Hãy thường xuyên luyện tập với các bài toán và câu đố.</p>";
+            } else if (iqScore < 110) {
+                interpretation = "<h3>Trung Bình</h3><p>Bạn có khả năng tư duy logic bình thường. Tiếp tục rèn luyện để cải thiện kỹ năng của mình.</p>";
+            } else if (iqScore < 130) {
+                interpretation = "<h3>Cao</h3><p>Bạn có khả năng tư duy logic tốt. Bạn có thể giải quyết các vấn đề phức tạp một cách hiệu quả.</p>";
+            } else {
+                interpretation = "<h3>Rất Cao</h3><p>Bạn có khả năng tư duy logic xuất sắc. Bạn có thể trở thành một nhà khoa học, kỹ sư hoặc nhà toán học giỏi.</p>";
+            }
+
+            document.getElementById('questionScreen').classList.add('hidden');
+            document.getElementById('resultScreen').classList.remove('hidden');
+            document.getElementById('iqScore').textContent = Math.round(iqScore);
+            document.getElementById('scoreInterpretation').innerHTML = interpretation;
+            document.getElementById('correctCount').textContent = score;
+            document.getElementById('accuracy').textContent = Math.round((score / questions.length) * 100) + '%';
+        }
+
+        function saveResultAndRestart() {
+            const iqScore = 60 + (score / questions.length) * 80;
+            const accuracy = Math.round((score / questions.length) * 100);
+            
+            testResults.push({
+                date: new Date().toLocaleString('vi-VN'),
+                iqScore: Math.round(iqScore),
+                correctAnswers: score,
+                accuracy: accuracy
+            });
+            
+            saveResults();
+            showScreen('welcome');
+        }
+
+        function loadStatistics() {
+            if (testResults.length === 0) {
+                document.getElementById('totalTests').textContent = '0';
+                document.getElementById('highestIQ').textContent = '-';
+                document.getElementById('averageIQ').textContent = '-';
+                document.getElementById('avgAccuracy').textContent = '-';
+                return;
+            }
+
+            // Calculate statistics
+            const totalTests = testResults.length;
+            const highestIQ = Math.max(...testResults.map(r => r.iqScore));
+            const averageIQ = Math.round(testResults.reduce((sum, r) => sum + r.iqScore, 0) / totalTests);
+            const avgAccuracy = Math.round(testResults.reduce((sum, r) => sum + r.accuracy, 0) / totalTests);
+
+            // Update cards
+            document.getElementById('totalTests').textContent = totalTests;
+            document.getElementById('highestIQ').textContent = highestIQ;
+            document.getElementById('averageIQ').textContent = averageIQ;
+            document.getElementById('avgAccuracy').textContent = avgAccuracy + '%';
+
+            // Update history table
+            const historyBody = document.getElementById('historyBody');
+            historyBody.innerHTML = '';
+            
+            testResults.forEach((result, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td><strong>${result.iqScore}</strong></td>
+                    <td>${result.correctAnswers}/20</td>
+                    <td>${result.accuracy}%</td>
+                    <td>${result.date}</td>
+                `;
+                historyBody.appendChild(row);
+            });
+        }
+
+        function clearHistory() {
+            if (confirm('Bạn có chắc chắn muốn xóa toàn bộ lịch sử không?')) {
+                testResults = [];
+                saveResults();
+                loadStatistics();
+            }
+        }
+
+        function updateProgressBar() {
+            const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+            document.querySelector('.progress-fill').style.width = progress + '%';
+        }
+
+        // Close modal when clicking outside of it
+        window.onclick = function(event) {
+            const modal = document.getElementById('paymentModal');
+            if (event.target == modal) {
+                closePaymentModal();
+            }
+        }
+
+        // Load data when page loads
+        loadData();
+        updateLockedButtons();
+    </script>
+</body>
+</html>
